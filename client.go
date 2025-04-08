@@ -12,31 +12,39 @@ import (
 )
 
 type Client struct {
-	Client  *http.Client
-	APIBase string
-	Token   string
+	Client      *http.Client
+	APIBase     string
+	RedirectURI string
+	Header      string
+	HeaderChat  *string
+	Token       string
+	TokenChat   *string
 }
 
-func NewClient() (*Client, error) {
+func NewClient(redirectURI, header, token string, headerChat, tokenChat *string) (*Client, error) {
 	return &Client{
-		Client:  &http.Client{},
-		APIBase: utils.BaseURL,
+		Client:      &http.Client{},
+		APIBase:     utils.BaseURL,
+		RedirectURI: redirectURI,
+		Header:      header,
+		HeaderChat:  headerChat,
+		Token:       token,
+		TokenChat:   tokenChat,
 	}, nil
 }
 
 func (c *Client) Send(req *http.Request, v interface{}) error {
-	if req.Header.Get("X-Whatsapp-Token") == "" {
-		return errors.New("request cannot be processed without header 'X-Whatsapp-Token'")
-	}
-
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Accept", "application/json")
-
 	var (
 		err  error
 		resp *http.Response
 		data []byte
 	)
+
+	req.Header.Set(c.Header, c.Token)
+
+	if c.HeaderChat != nil && c.TokenChat != nil {
+		req.Header.Set(*c.HeaderChat, *c.TokenChat)
+	}
 
 	resp, err = c.Client.Do(req)
 	if err != nil {

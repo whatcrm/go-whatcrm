@@ -3,30 +3,40 @@ package models
 import "time"
 
 type Message struct {
-	ID               string     `json:"id,omitempty" bson:"_id,omitempty"`
-	Content          string     `json:"content" bson:"content"`
-	Type             string     `json:"type" bson:"type"`
-	FileURL          string     `json:"file_url" bson:"file_url"`
-	DialogID         string     `json:"dialog_id" bson:"dialog_id"`
-	SenderID         string     `json:"sender_id" bson:"sender_id"`
-	CreatedAt        time.Time  `json:"timestamp" bson:"created_at"`
-	IsEdited         bool       `json:"is_edited" bson:"is_edited"`
-	EditedAt         time.Time  `json:"edited_at" bson:"edited_at"`
-	Editable         bool       `json:"editable" bson:"editable"`
-	DeletedAt        time.Time  `json:"deleted_at" bson:"deleted_at"`
-	DeletedStatus    string     `json:"deleted_status" bson:"deleted_status"`
-	DeletedForUserID string     `json:"deleted_for" bson:"deleted_for"`
-	Status           string     `json:"status" bson:"status"`
-	Reactions        []Reaction `json:"reactions" bson:"reactions"`
-	QuotedMessageID  string     `json:"quotedMsgId" bson:"quotedMsgId"`
-	Timeout          int        `json:"timeout,omitempty" bson:"timeout,omitempty"`
-	Buttons          []Button   `json:"buttons,omitempty" bson:"buttons,omitempty"`
+	ID               string     `json:"id,omitempty"`
+	Content          string     `json:"content"`
+	Type             string     `json:"type"`
+	FileURL          string     `json:"file_url"`
+	DialogID         string     `json:"dialog_id"`
+	SenderID         string     `json:"sender_id"`
+	CreatedAt        time.Time  `json:"timestamp"`
+	IsEdited         bool       `json:"is_edited"`
+	EditedAt         time.Time  `json:"edited_at"`
+	Editable         bool       `json:"editable"`
+	DeletedAt        time.Time  `json:"deleted_at"`
+	DeletedStatus    string     `json:"deleted_status"`
+	DeletedForUserID string     `json:"deleted_for"`
+	Status           string     `json:"status"`
+	Reactions        []Reaction `json:"reactions"`
+	QuotedMessageID  string     `json:"quotedMsgId"`
+	Timeout          int        `json:"timeout,omitempty"`
+	Buttons          []Button   `json:"buttons,omitempty"`
 }
 
+type MessageInput struct {
+	Body            string `json:"body"`
+	ChatID          string `json:"chatId"`
+	QuotedMessageID string `json:"quotedMsgId"`
+	FileURL         string `json:"file_url"`
+}
+
+type MessageResponse struct {
+	Data Message `json:"message"`
+}
 type Reaction struct {
-	MessageID string `json:"message_id" bson:"message_id"`
-	UserID    string `json:"user_id" bson:"user_id"`
-	Symbol    string `json:"symbol" bson:"symbol"`
+	ChatID    string `json:"chat_id"`
+	MessageID string `json:"message_id"`
+	Reaction  string `json:"reaction"`
 }
 
 type Button struct {

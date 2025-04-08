@@ -15,8 +15,3 @@ type Dialog struct {
 	IsPinned       bool      `json:"is_pinned" bson:"-"`
 	Version        string    `json:"version"`
 }
-
-type DialogResponse struct {
-	Success bool     `json:"success"`
-	Data    []Dialog `json:"data"`
-}
